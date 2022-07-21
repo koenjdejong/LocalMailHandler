@@ -2,7 +2,7 @@ from flask import Flask, request, render_template
 from src.config import Config
 
 config = Config("config.json")
-app = Flask("MailServer", static_folder="src/static", template_folder="src/templates")
+app = Flask("LocalMailHandler", static_folder="src/static", template_folder="src/templates")
 
 from src.mail import MailService
 
@@ -58,7 +58,7 @@ def mail_send():
 def mail_test():
     app.logger.info(
         f"200 status -> {request.path} by {request.remote_addr}, sending test email to '{config['mail']['recipient_email']}'")
-    mail_service.send_email(config['mail']['recipient_email'], "MailServer Test",
+    mail_service.send_email(config['mail']['recipient_email'], "LocalMailHandler Test",
                             "This is a test email, triggered by a post request to /mail/test/")
     return {"success": True, "status": 200, "message": "Test message sent."}, 200
 
@@ -86,7 +86,7 @@ Someone has submitted a form with the following data:
 {pretty_form_text(request.form)}
 Kind regards,
 
-Your friendly MailServer''')
+Your friendly LocalMailHandler''')
     return {"success": True, "status": 200, "message": "Form submission successful."}, 200
 
 
