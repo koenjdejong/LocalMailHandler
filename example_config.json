@@ -1,0 +1,11 @@
+{
+  "mail": {
+    "sender_email": "noreply@example.com",
+    "recipient_email": "mail@example.com"
+  },
+  "api_keys": {
+    "service1": "IBo3a9xkcFDY2H7Jv75h3k78OvjHlEee",
+    "service2": "h2TgTQjbDrWC6LRTSoLk5-Ta7GcRirRU",
+    "service3": "k-LpucJY6FEPavV1B2YYbP2i1aWylDPp"
+  }
+}
