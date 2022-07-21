@@ -20,4 +20,3 @@ class MailService:
             app.logger.info(f"Email sent to {destination}")
         except Exception as e:
             app.logger.error(f"Error sending email to {destination}: {e}")
-            # TODO let dev know some other way.
