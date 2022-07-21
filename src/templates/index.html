@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>API Documentation - Form Submission System</title>
+    <meta name="description" content="">
+    <meta name="author" content="ticlekiwi">
+
+    <meta http-equiv="cleartype" content="on">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="/static/docs/css/hightlightjs-dark.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/highlight.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;1,300&family=Source+Code+Pro:wght@300&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="/static/docs/css/style.css" media="all">
+    <script>
+        hljs.initHighlightingOnLoad();
+    </script>
+</head>
+
+<body class="one-content-column-version">
+<div class="left-menu">
+    <div class="content-logo">
+        <a href="https://github.com/koenjdejong/Forms">
+            <div class="logo">
+                <span>Form Submission System</span>
+                <span>API Documentation</span>
+            </div>
+        </a>
+        <button class="burger-menu-icon" id="button-menu-mobile">
+            <svg width="34" height="34" viewBox="0 0 100 100"><path class="line line1" d="M 20,29.000046 H 80.000231 C 80.000231,29.000046 94.498839,28.817352 94.532987,66.711331 94.543142,77.980673 90.966081,81.670246 85.259173,81.668997 79.552261,81.667751 75.000211,74.999942 75.000211,74.999942 L 25.000021,25.000058"></path><path class="line line2" d="M 20,50 H 80"></path><path class="line line3" d="M 20,70.999954 H 80.000231 C 80.000231,70.999954 94.498839,71.182648 94.532987,33.288669 94.543142,22.019327 90.966081,18.329754 85.259173,18.331003 79.552261,18.332249 75.000211,25.000058 75.000211,25.000058 L 25.000021,74.999942"></path></svg>
+        </button>
+    </div>
+    <div class="mobile-menu-closer"></div>
+    <div class="content-menu">
+        <div class="content-infos">
+            <div class="info"><b>Version:</b> 1.0.2</div>
+            <div class="info"><b>Last Updated:</b> 21 juli 2022</div>
+            <div class="info"><b>Author:</b> <a style="text-decoration: none; color:#777A7A" href="https://github.com/koenjdejong">Koen de Jong</a></div>
+        </div>
+        <ul>
+            <li class="scroll-to-link active" data-target="content-get-started">
+                <a>GET STARTED</a>
+            </li>
+            <li class="scroll-to-link" data-target="content-submit-form">
+                <a>SUBMIT FORM</a>
+            </li>
+            <li class="scroll-to-link" data-target="content-create-form">
+                <a>CREATING FORM</a>
+            </li>
+            <li class="scroll-to-link" data-target="content-errors">
+                <a>ERRORS</a>
+            </li>
+        </ul>
+        <div class="content-infos">
+            
+        </div>
+    </div>
+</div>
+
+
+<div class="content-page">
+    <div class="content">
+        <div class="overflow-hidden content-section" id="content-get-started">
+            <h1>Get started</h1>
+            <p>This is the API documentation for the a Form Submission System, as shown on <a href="https://github.com/koenjdejong/Forms">this github</a>. It does not validate any input, in terms of what the message should contain, but does filter out spam. </p>
+            <p>To use this API for creating collections of forms, you need an <strong>API key</strong>. You can submit forms without an API key, of course. This can be done using JSON objects as a request body</p>
+        </div>
+        <div class="overflow-hidden content-section" id="content-submit-form">
+            <h2>How to submit a form</h2>
+            <p>
+                To submit a form, you make a POST call to: (Replace value in [&nbsp;&nbsp;] ) <br>
+                <code class="higlighted break-word">https://formapi.example.com/forms/[form_name]/submit</code>
+            </p>
+            <p>The following is an example how a form request could look like with parameters, but this is entirely free for implementation. </p>
+            <h4>Example</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Field</th>
+                        <th>Type</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>name</td>
+                        <td>String</td>
+                        <td>Koen de Jong</td>
+                    </tr>
+                    <tr>
+                        <td>email</td>
+                        <td>String</td>
+                        <td>mail@koendejong.net</td>
+                    </tr>
+                    <tr>
+                        <td>gender</td>
+                        <td>String</td>
+                        <td>female</td>
+                    </tr>
+                    <tr>
+                        <td>message</td>
+                        <td>String</td>
+                        <td>Feedback is always appreciated</td>
+                    </tr>
+                    <tr>
+                        <td>subscription</td>
+                        <td>Boolean</td>
+                        <td>true</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>In JSON format, it would look like this:</p>
+            <code style="color:white">
+                &nbsp;&nbsp;{<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;"name": "Koen de Jong",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;"email": "mail@koendejong.net",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;"gender": "female",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;"message": "Feedback is always appreciated",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;"subscription": true,<br>
+                    &nbsp;&nbsp;}
+            </code>
+        </div>
+        <div class="overflow-hidden content-section" id="content-create-form">
+            <h2>How to create a form</h2>
+            <p>
+                To create a form collection, you make a POST call to: (Replace value in [&nbsp;&nbsp;] ) <br>
+                <code class="higlighted break-word">https://formapi.example.com/forms/[form_name]/create</code>
+            </p>
+            <p>To be able to create a form, you must specify a valid API key in a header. The table shows an example. </p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Key</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>api_key</td>
+                        <td>011a8fd1-51b6-4fd7-bbf4-90b75363013e</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="overflow-hidden content-section" id="content-errors">
+            <h2>Error handling</h2>
+            <p>The Form Submission System API does not have error codes, but it does have error states and messages.</p>
+            <p>Every request will return a <code>success</code> boolean value, if either an error occurred or not, and a <code>message</code> string value, stating either an explaination of the error or that what the request has done. </p>
+            <h4>Examples of possible returned objects</h4>
+            <table>
+                <thead>
+                <tr>
+                    <th>success</th>
+                    <th>message</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>true</td>
+                    <td>
+                        Form data inserted successfully
+                    </td>
+                </tr>
+                <tr>
+                    <td>true</td>
+                    <td>
+                        Form Collection created successfully
+                    </td>
+                </tr>
+                <tr>
+                    <td>false</td>
+                    <td>
+                        Form does not exist
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>false</td>
+                    <td>
+                        There was an database connection error. Check the logs for more info.
+                    </td>
+                </tr>
+                <tr>
+                    <td>false</td>
+                    <td>
+                        No API key provided
+                    </td>
+                </tr>
+                <tr>
+                    <td>false</td>
+                    <td>
+                        Invalid API key
+                    </td>
+                </tr>
+                <tr>
+                    <td>false</td>
+                    <td>
+                        Form already exists
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="remove-if-663px">
+    <a href="https://github.com/koenjdejong/Forms" class="github-corner" aria-label="View source on Github" title="View source on Github"><svg width="80" height="80" viewBox="0 0 250 250" style="z-index:99999; fill:#70B7FD; color:#fff; position: fixed; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+</div>
+<script src="/static/docs/js/script.js"></script>
+</body>
+
+</html>
