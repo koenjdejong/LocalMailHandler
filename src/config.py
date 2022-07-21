@@ -78,7 +78,7 @@ class Config:
         for key, value in data.items():
             if not self._valid_api_key_format(value):
                 raise ConfigError(f"API key '{key}' does not have a valid API key")
-            if isinstance(key, str):
+            if not isinstance(key, str):
                 raise ConfigError(f"API key '{key}' is not a string")
 
     def valid_email(self, email) -> bool:
@@ -87,12 +87,13 @@ class Config:
     def valid_api_key(self, api_key) -> Optional[str]:
         if not self._valid_api_key_format(api_key):
             return None
+
         api_keys = self._config_data["api_keys"]
         for key, value in api_keys.items():
             if value == api_key:
                 return key
         return None
-    
+
     def _valid_api_key_format(self, api_key: str) -> bool:
         return isinstance(api_key, str) and len(api_key) == 32
 
