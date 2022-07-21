@@ -14,10 +14,6 @@ class ConfigError(Exception):
         return self.message
 
 
-def valid_email(email) -> bool:
-    return not isinstance(email, str) and not search("^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$", email)
-
-
 class Config:
 
     def __init__(self, filename: str):
@@ -51,7 +47,7 @@ class Config:
             if requirement not in data:
                 raise ConfigError(f"Config file does not contain top-level-requirement: {requirement}")
 
-        # TODO: check smtp, gmail
+        self._valid_mail_settings()
 
         return True
 
@@ -59,15 +55,21 @@ class Config:
         """ Checks if the config file contains the required mail data """
         data = self._config_data["mail"]
 
-        requirements = ["sender_email"]
+        requirements = ["sender_email", "recipient_email"]
         for requirement in requirements:
             if requirement not in data:
-                raise ConfigError(f"Config file does not contain top-level-requirement: {requirement}")
+                raise ConfigError(f"Config file does not contain requirement: {requirement}")
 
-        if not valid_email(data["sender_email"]):
+        if not self.valid_email(data["sender_email"]):
             raise ConfigError("Sender email must be a string and a valid email address")
 
+        if not self.valid_email(data["recipient_email"]):
+            raise ConfigError("Recipient email must be a string and a valid email address")
+
         return True
+
+    def valid_email(self, email) -> bool:
+        return isinstance(email, str) and search("([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+", email)
 
     def __setitem__(self, key, value):
         raise ConfigError("Config object is read-only")
