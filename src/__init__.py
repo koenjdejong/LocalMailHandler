@@ -43,7 +43,7 @@ def mail_send():
     service = config.valid_api_key(request.headers.get("API-KEY"))
     if not service:
         app.logger.error(f"401 error -> {request.path} by {request.remote_addr}, invalid API key")
-        return {"success": False, "status": 401, "message": "Unauthorized. Invalid API key"}, 401
+        return {"success": False, "status": 401, "message": "Unauthorized. Invalid API key."}, 401
 
     # Send mail
     mail_service.send_email(data["receiver"], data["subject"], data["body"])
@@ -115,4 +115,4 @@ def error404(error):
 @app.errorhandler(500)
 def error500(error):
     app.logger.error(f"500 error -> {request.path} by {request.remote_addr}. Error: {error}")
-    return {"success": False, "status": 500, "message": "Internal server error."}, 500
+    return {"success": False, "status": 500, "message": "Internal server error. Check the logs for more info."}, 500
