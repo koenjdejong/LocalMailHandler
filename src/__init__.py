@@ -1,8 +1,8 @@
-from flask import Flask, request
+from flask import Flask, request, render_template
 from src.config import Config
 
 config = Config("config.json")
-app = Flask("MailServer")
+app = Flask("MailServer", static_folder="src/static", template_folder="src/templates")
 
 from src.mail import MailService
 
@@ -33,21 +33,31 @@ def mail_send():
         app.logger.error(f"400 error -> {request.path} by {request.remote_addr}, invalid receiver")
         return {"success": False, "status": 400, "message": "Invalid receiver email"}, 400
 
+    # Check for existence of API key
+    if not request.headers.get("API-KEY"):
+        app.logger.error(f"400 error -> {request.path} by {request.remote_addr}, missing API key")
+        return {"success": False, "status": 401,
+                "message": "Missing API key. A header 'API-KEY' should be present."}, 401
+
     # Check for valid API key
-    if not config.valid_api_key(request.headers.get("API-KEY")):
+    service = config.valid_api_key(request.headers.get("API-KEY"))
+    if not service:
         app.logger.error(f"401 error -> {request.path} by {request.remote_addr}, invalid API key")
         return {"success": False, "status": 401, "message": "Unauthorized. Invalid API key"}, 401
 
+    # Send mail
     mail_service.send_email(data["receiver"], data["subject"], data["body"])
     app.logger.info(
-        f"200 status -> {request.path} by {request.remote_addr}, sending email to '{data['receiver']}' with subject '{data['subject']}' and body '{data['body']}'")
+        f"200 status -> {service.upper()} {request.path} by {request.remote_addr}, sending email to "
+        f"'{data['receiver']}' with subject '{data['subject']}' and body '{data['body']}'")
 
     return {"success": True, "status": 200, "message": "Message send."}, 200
 
 
 @app.route("/mail/test/", methods=["POST"])
 def mail_test():
-    app.logger.info(f"200 status -> {request.path} by {request.remote_addr}, sending test email to '{config['mail']['recipient_email']}'")
+    app.logger.info(
+        f"200 status -> {request.path} by {request.remote_addr}, sending test email to '{config['mail']['recipient_email']}'")
     mail_service.send_email(config['mail']['recipient_email'], "MailServer Test",
                             "This is a test email, triggered by a post request to /mail/test/")
     return {"success": True, "status": 200, "message": "Test message sent."}, 200
@@ -83,6 +93,11 @@ Your friendly MailServer''')
 @app.route("/server/status/", methods=["GET"])
 def status():
     return {"success": True, "status": 200, "message": "Server is running."}, 200
+
+
+@app.route("/", methods=["GET"])
+def index():
+    return render_template("index.html")
 
 
 @app.errorhandler(405)
