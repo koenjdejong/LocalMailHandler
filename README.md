@@ -17,10 +17,9 @@ Install the following tools with pip3:
 2. google-auth-httplib2
 3. google-auth-oauthlib
 4. pickle
+5. Flask
 
 ## Usage
-With a working configuration, you can run the tool with the following command:
-`python3 run.py`
 
 ### Google API Credentials
 Before being able to use this tool, you need to have a Gmail or Google Suite account.
@@ -33,3 +32,6 @@ You can create one by following the instructions:
 ### Configuration
 1. Rename the `example_config.json` the file `config.json` in your project directory
 2. Fill in the fields to your liking and remove the descriptive part.
+
+With a working configuration, you can run the tool with the following command:
+`python3 run.py`
