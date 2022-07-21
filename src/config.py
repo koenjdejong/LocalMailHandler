@@ -2,6 +2,7 @@ import os
 from json import load
 from json import JSONDecodeError
 from re import search
+from typing import Optional
 
 
 class ConfigError(Exception):
@@ -42,12 +43,13 @@ class Config:
         """ Checks if the config file contains the required data """
         data = self._config_data
 
-        requirements = ["mail"]
+        requirements = ["mail", "api_keys"]
         for requirement in requirements:
             if requirement not in data:
                 raise ConfigError(f"Config file does not contain top-level-requirement: {requirement}")
 
         self._valid_mail_settings()
+        self._valid_api_keys()
 
         return True
 
@@ -68,8 +70,31 @@ class Config:
 
         return True
 
+    def _valid_api_keys(self):
+        data = self._config_data["api_keys"]
+        if not isinstance(data, dict):
+            raise ConfigError("API keys must be a dictionary")
+
+        for key, value in data.items():
+            if not self._valid_api_key_format(value):
+                raise ConfigError(f"API key '{key}' does not have a valid API key")
+            if isinstance(key, str):
+                raise ConfigError(f"API key '{key}' is not a string")
+
     def valid_email(self, email) -> bool:
         return isinstance(email, str) and search("([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+", email)
+
+    def valid_api_key(self, api_key) -> Optional[str]:
+        if not self._valid_api_key_format(api_key):
+            return None
+        api_keys = self._config_data["api_keys"]
+        for key, value in api_keys.items():
+            if value == api_key:
+                return key
+        return None
+    
+    def _valid_api_key_format(self, api_key: str) -> bool:
+        return isinstance(api_key, str) and len(api_key) == 32
 
     def __setitem__(self, key, value):
         raise ConfigError("Config object is read-only")
@@ -79,3 +104,4 @@ class Config:
             return self._config_data[item]
         except KeyError:
             raise ConfigError(f"Config file does not contain: {item}")
+

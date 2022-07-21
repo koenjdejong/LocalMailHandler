@@ -33,8 +33,12 @@ def mail_send():
         app.logger.error(f"400 error -> {request.path} by {request.remote_addr}, invalid receiver")
         return {"success": False, "status": 400, "message": "Invalid receiver email"}, 400
 
-    mail_service.send_email(data["receiver"], data["subject"], data["body"])
+    # Check for valid API key
+    if not config.valid_api_key(request.headers.get("API-KEY")):
+        app.logger.error(f"401 error -> {request.path} by {request.remote_addr}, invalid API key")
+        return {"success": False, "status": 401, "message": "Unauthorized. Invalid API key"}, 401
 
+    mail_service.send_email(data["receiver"], data["subject"], data["body"])
     app.logger.info(
         f"200 status -> {request.path} by {request.remote_addr}, sending email to '{data['receiver']}' with subject '{data['subject']}' and body '{data['body']}'")
 
@@ -43,16 +47,37 @@ def mail_send():
 
 @app.route("/mail/test/", methods=["POST"])
 def mail_test():
-    app.logger.info(
-        f"200 status -> {request.path} by {request.remote_addr}, sending test email to '{config['mail']['recipient_email']}'")
+    app.logger.info(f"200 status -> {request.path} by {request.remote_addr}, sending test email to '{config['mail']['recipient_email']}'")
     mail_service.send_email(config['mail']['recipient_email'], "MailServer Test",
                             "This is a test email, triggered by a post request to /mail/test/")
     return {"success": True, "status": 200, "message": "Test message sent."}, 200
 
 
+def pretty_form_text(data: dict) -> str:
+    result = "\n"
+    for key, value in data.items():
+        value = str(value).replace("\n", " ")
+        result += f"{key}: {value}\n"
+    return result
+
+
 @app.route("/form/submit/", methods=["POST"])
 def submit():
-    return {"success": False, "status": 500, "message": "Not implemented yet."}, 500
+    if not request.form:
+        app.logger.error(f"400 error -> {request.path} by {request.remote_addr}, no form data provided")
+        return {"success": False, "status": 400, "message": "No form data provided"}, 400
+
+    app.logger.info(f"200 status -> {request.path} by {request.remote_addr}, form data received: {request.form}")
+
+    mail_service.send_email(config['mail']['recipient_email'], "Formular submitted",
+f'''Hello there!
+
+Someone has submitted a form with the following data:
+{pretty_form_text(request.form)}
+Kind regards,
+
+Your friendly MailServer''')
+    return {"success": True, "status": 200, "message": "Form submission successful."}, 200
 
 
 @app.route("/server/status/", methods=["GET"])
