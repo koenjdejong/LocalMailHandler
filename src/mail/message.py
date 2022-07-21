@@ -42,12 +42,12 @@ def build_message(destination, subject, body, attachments=None):
     if not attachments:
         message = MIMEText(body)
         message['to'] = destination
-        message['from'] = config['sender_email']
+        message['from'] = config["mail"]['sender_email']
         message['subject'] = subject
     else:
         message = MIMEMultipart()
         message['to'] = destination
-        message['from'] = config['sender_email']
+        message['from'] = config["mail"]['sender_email']
         message['subject'] = subject
         message.attach(MIMEText(body))
         for filename in attachments:

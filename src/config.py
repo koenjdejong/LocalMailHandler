@@ -14,6 +14,10 @@ class ConfigError(Exception):
         return self.message
 
 
+def valid_email(email) -> bool:
+    return not isinstance(email, str) and not search("^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$", email)
+
+
 class Config:
 
     def __init__(self, filename: str):
@@ -60,13 +64,10 @@ class Config:
             if requirement not in data:
                 raise ConfigError(f"Config file does not contain top-level-requirement: {requirement}")
 
-        if not self._valid_email(data["sender_email"]):
+        if not valid_email(data["sender_email"]):
             raise ConfigError("Sender email must be a string and a valid email address")
 
         return True
-
-    def _valid_email(self, email) -> bool:
-        return not isinstance(email, str) and not search("^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$", email)
 
     def __setitem__(self, key, value):
         raise ConfigError("Config object is read-only")
@@ -75,6 +76,4 @@ class Config:
         try:
             return self._config_data[item]
         except KeyError:
-            for key in self._config_data:
-                return self._config_data[key]
             raise ConfigError(f"Config file does not contain: {item}")
