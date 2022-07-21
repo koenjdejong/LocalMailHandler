@@ -28,7 +28,7 @@ You can create one by following the instructions:
 1. Go to the [API Developer Console](https://console.cloud.google.com/apis/dashboard)
 2. Create a new project
 3. Go to credentials and create new OAuth client credentials
-4. Download the JSON file and save it to your project directory
+4. Download the JSON file and save it to your project directory as `credentials.json`
 
 ### Configuration
 1. Rename the `example_config.json` the file `config.json` in your project directory
