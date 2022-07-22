@@ -16,9 +16,8 @@ Install the following tools with pip3:
 1. google-api-python-client
 2. google-auth-httplib2
 3. google-auth-oauthlib
-4. pickle
-5. Flask
-6. honeybadger
+4. Flask
+5. honeybadger
 
 ## Usage
 

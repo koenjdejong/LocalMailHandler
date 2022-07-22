@@ -19,7 +19,7 @@ def mail_send():
         app.logger.error(
             f"400 error -> {request.path} by {request.remote_addr}, form data is not allowed: {request.form}")
         return {"success": False, "status": 400, "message": "Form data is not accepted."}, 400
-    if not request.data:
+    if not request.json:
         app.logger.error(f"400 error -> {request.path} by {request.remote_addr}, no data provided")
         return {"success": False, "status": 400, "message": "No data could be found"}, 400
 

@@ -4,6 +4,7 @@
 config.json
 credentials.json
 token.pickle
+uwsgi.ini
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
