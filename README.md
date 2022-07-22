@@ -40,5 +40,15 @@ You can generate an API key by following the instructions:
 1. Rename the `example_config.json` the file `config.json` in your project directory
 2. Fill in the fields to your liking and remove the descriptive part.
 
-With a working configuration, you can run the tool with the following command:
-`python3 run.py`
+
+### Running the API
+With a working configuration, you can run python with the following argument: `run.py`
+This can be done in the terminal in any of the following options, depending on your setup:
+```bash
+python run.py
+
+python3 run.py
+
+source venv/bin/activate
+python run.py
+```
