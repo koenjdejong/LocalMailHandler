@@ -43,13 +43,14 @@ class Config:
         """ Checks if the config file contains the required data """
         data = self._config_data
 
-        requirements = ["mail", "api_keys"]
+        requirements = ["mail", "api_keys", "honeybadger_api_key"]
         for requirement in requirements:
             if requirement not in data:
                 raise ConfigError(f"Config file does not contain top-level-requirement: {requirement}")
 
         self._valid_mail_settings()
         self._valid_api_keys()
+        self._valid_honeybadger()
 
         return True
 
@@ -81,6 +82,11 @@ class Config:
             if not isinstance(key, str):
                 raise ConfigError(f"API key '{key}' is not a string")
 
+    def _valid_honeybadger(self):
+        data = self._config_data["honeybadger_api_key"]
+        if not isinstance(data, str):
+            raise ConfigError("Honeybadger.io API key must be a string")
+
     def valid_email(self, email) -> bool:
         return isinstance(email, str) and search("([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+", email)
 
@@ -105,4 +111,3 @@ class Config:
             return self._config_data[item]
         except KeyError:
             raise ConfigError(f"Config file does not contain: {item}")
-
