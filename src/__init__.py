@@ -1,7 +1,10 @@
 from flask import Flask, request, render_template
 from src.config import Config
 
+
 config = Config("config.json")
+from honeybadger import honeybadger
+honeybadger.configure(api_key=config["honeybadger_api_key"])
 app = Flask("LocalMailHandler", static_folder="src/static", template_folder="src/templates")
 
 from src.mail import MailService
@@ -97,7 +100,7 @@ def status():
 
 @app.route("/", methods=["GET"])
 def index():
-    return render_template("index.html")
+    return render_template("docs/index.html")
 
 
 @app.errorhandler(405)
