@@ -3,7 +3,7 @@
     "sender_email": "noreply@example.com",
     "recipient_email": "mail@example.com"
   },
-  "honeybadger_io_api_key": "GET_FROM-https://app.honeybadger.io/",
+  "honeybadger_api_key": "GET_FROM-https://app.honeybadger.io/",
   "api_keys": {
     "service1": "IBo3a9xkcFDY2H7Jv75h3k78OvjHlEee",
     "service2": "h2TgTQjbDrWC6LRTSoLk5-Ta7GcRirRU",
