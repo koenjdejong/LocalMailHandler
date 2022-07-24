@@ -17,7 +17,8 @@ Install the following tools with pip3:
 2. google-auth-httplib2
 3. google-auth-oauthlib
 4. Flask
-5. honeybadger
+5. flask-cors
+6. honeybadger
 
 ## Usage
 

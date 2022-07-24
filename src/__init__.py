@@ -1,4 +1,5 @@
 from flask import Flask, request, render_template
+from flask_cors import CORS
 from src.config import Config
 
 
@@ -6,6 +7,7 @@ config = Config("config.json")
 from honeybadger import honeybadger
 honeybadger.configure(api_key=config["honeybadger_api_key"])
 app = Flask("LocalMailHandler", static_folder="src/static", template_folder="src/templates")
+cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
 from src.mail import MailService
 
