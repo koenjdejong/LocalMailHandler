@@ -52,3 +52,7 @@ python3 run.py
 source venv/bin/activate
 python run.py
 ```
+
+### Docker
+To run docker, you need to create the image yourself with the credentials, config and token.pickle all setup correctly. 
+Map container port 80 to a port of your liking and your good to go!
